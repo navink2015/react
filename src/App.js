@@ -1,75 +1,67 @@
-import React from 'react';
-import './App.css';
-import Select from 'react-select';
-const axios = require('axios').default;
+import React, { Component,useState } from "react";
+import { Person } from "./Components/Person";
+import TicTac from "./Components/TicTac";
 
-class App extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      statesList:[],
-      cityList:[],
-    }  
-  }
-  changeState = (currentstate) => {
-    axios.get('http://209.97.163.4:9010/getCities?stateId='+currentstate.value)
-    .then(data => {
-      const cityList = data.data.map(indi => {
-        console.log(indi)
-        return {
-          'value':indi,
-          'label':indi
-        }
-      })
-      this.setState({
-        'cityList':cityList
-      })
-    })
-    .catch(err => {
-      console.log(err)
-      alert(err)
-    })
-  }
-  loadDefaultoptions = () => {
-    axios.get('http://209.97.163.4:9010/getStates?countryId=101')
-    .then(data => {
-      // { value: 'chocolate', label: 'Chocolate' },
-      const stateList = data.data.map(indi => {
-        return {
-          'value':indi.id,
-          'label':indi.name
-        }
-      })
-      console.log(this.state)
-      this.setState({
-        'statesList':stateList
-      })
+// export default class App extends Component {
+//   state = {
+//     person: [
+//       { name: "navin", age: 25 },
+//       { name: "raj", age: 35 },
+//       { name: "banu", age: 26 },
+//     ],
+//   };
+//   switchHandler = () => {
+//     console.log("button Clicked");
+//     this.setState({person:[
+//       { name: "navin", age: 60},
+//       { name: "raj", age: 35 },
+//       { name: "banu", age: 26 },
+//     ]})
+//   };
+//   render() {
+//     return (
+//       <div>
+//         {/* <Game /> */}
+//         <TicTac />
+//         <button onClick={this.switchHandler}>switch</button>
+//         <Person
+//           name={this.state.person[0].name}
+//           age={this.state.person[0].age}
+//         />
+//         <Person
+//           name={this.state.person[1].name}
+//           age={this.state.person[1].age}
+//         />
+//         <Person
+//           name={this.state.person[2].name}
+//           age={this.state.person[2].age}
+//         />
+//         <Person  name={this.state.person[2].name}
+//           age={this.state.person[2].age}>apple</Person>
+//       </div>
+//     );
+//   }
+// }
 
-    })
-    .catch(err => {
-      console.log(err)
-      // alert('error occured')
-    })
-  }
-  // http://209.97.163.4:9010/getStates?countryId=101
-  render(){
-    this.loadDefaultoptions()
-    return (
-      <div className="row">
-        <div className="col-md-6">
-        <Select 
-        options={this.state.statesList}
-        onChange={this.changeState}
-        />
-        </div>
-        <div className="col-md-6">
-        <Select
-        options={this.state.cityList}
-        />
-        </div>
-      </div>
-    )
-  }
+// import React from 'react'
+
+export default function App() {
+  const [object, setObject] = useState({person:[
+          { name: "navin", age: 60},
+          { name: "raj", age: 35 },
+          { name: "banu", age: 26 },
+        ]})
+  var clickHandler=()=>{
+    console.log("clicked")
+    setObject({person:[
+    { name: "bala", age: 40},
+    { name: "raj", age: 35 },
+    { name: "banu", age: 26 },
+  ]})} 
+  return (
+    <div>
+      <button  onClick={clickHandler}>hello</button>
+      <Person name={object.person[0].name} age={object.person[0].age}/>
+    </div>
+  )
 }
-
-export default App;
